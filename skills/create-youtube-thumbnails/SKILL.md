@@ -1,6 +1,6 @@
 ---
-name: create-youtube-packaging
-description: Create or revise YouTube title and thumbnail packages with VoxTale from a topic, script, transcript, or saved project. Use for VoxTale generation, text-only concepts, thumbnail edits, and checking those results.
+name: create-youtube-thumbnails
+description: Create or revise YouTube thumbnails and matching titles with VoxTale from a topic, script, transcript, or saved project. Use for VoxTale generation, text-only concepts, thumbnail edits, and checking those results.
 ---
 
 Use the VoxTale MCP tools for this workflow. Follow the user's explicit choices;

@@ -2,9 +2,9 @@
 
 Skills for creating and refining YouTube titles and thumbnails through the [VoxTale MCP server](https://voxtale.so/docs/mcp).
 
-## Create YouTube packaging
+## Create YouTube thumbnails
 
-The [packaging skill](skills/create-youtube-packaging/SKILL.md) guides this flow:
+The [thumbnail skill](skills/create-youtube-thumbnails/SKILL.md) guides this flow:
 
 1. Ask for the full video transcript, or as much detail about the video as possible. Reuse material the creator already supplied or saved in VoxTale.
 2. Ask whether to use a particular face photo: upload a new one, choose one stored in VoxTale, or continue without a face photo.
@@ -15,7 +15,7 @@ An explicit request for text-only concepts uses concept mode instead. Both full 
 
 ## Use
 
-Install the `skills/create-youtube-packaging` folder in a host that supports `SKILL.md` skills and remote MCP. The skill declares its dependency in `agents/openai.yaml`:
+Install the `skills/create-youtube-thumbnails` folder in a host that supports `SKILL.md` skills and remote MCP. The skill declares its dependency in `agents/openai.yaml`:
 
 - Server: `https://mcp.voxtale.so/mcp`
 - Transport: Streamable HTTP

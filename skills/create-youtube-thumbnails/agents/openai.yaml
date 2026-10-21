@@ -1,12 +1,12 @@
 interface:
-  display_name: "Create YouTube packaging"
+  display_name: "Create YouTube thumbnails"
   short_description: "Create and refine VoxTale titles and thumbnails"
-  default_prompt: "Use $create-youtube-packaging to create title and thumbnail options for my video."
+  default_prompt: "Use $create-youtube-thumbnails to create thumbnail and title options for my video."
 
 dependencies:
   tools:
     - type: "mcp"
       value: "voxtale"
-      description: "Generate and edit YouTube packaging in VoxTale"
+      description: "Generate and edit YouTube thumbnails in VoxTale"
       transport: "streamable_http"
       url: "https://mcp.voxtale.so/mcp"
