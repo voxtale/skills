@@ -80,8 +80,12 @@ paid run automatically, including after a provider credit or concurrency error.
 ## Present useful results
 
 When done, keep each option's returned rank with its title, hook, and angle.
-For full runs, show the thumbnail using the host's supported image display and
-provide returned download links. If images cannot display, provide the links.
+For full runs, call `show_thumbnails` with the run ID to display the inline
+gallery of current thumbnails, matching titles, hooks, and HD/4K downloads.
+Use its optional `ranks` to show selected options. This is a read, not a new
+generation. The gallery's Refresh button renews expiring links without using
+generation or edit allowance. If the host cannot render the gallery, provide
+the returned download links and project link; do not claim images displayed.
 For concept runs, show thumbnail briefs and art direction without implying
 images were rendered. Match the amount of detail to the user's request.
 
@@ -109,7 +113,8 @@ saved change. Start a fresh generation only if the user wants a new run.
   returned by `get_thumbnail`. It appends a new version and keeps history.
   Do not repeat a successful restore as a status check.
 
-Report the current image and what changed. For a requested fresh generation,
+After an edit or restore completes, call `show_thumbnails` with the run ID
+and chosen rank to show the current image. Report what changed. For a requested fresh generation,
 reuse saved material and compatible config from `get_generation`, changing
 only what the user requested and assigning a new key for that new run.
 
