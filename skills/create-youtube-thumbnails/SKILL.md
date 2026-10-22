@@ -21,8 +21,11 @@ these defaults do not authorize extra runs, uploads, or edits.
 - Next ask whether the user wants a particular face photo in the thumbnails,
   unless they have already supplied a photo or chosen not to use one. Offer a
   new photo, a face photo already stored in VoxTale, or no face photo. If they
-  choose a saved photo, call `list_assets` with `role: face` and resolve their
-  selection before generation. Do not silently select a likeness.
+  choose a saved photo and the host supports UI, call `show_face_picker`. It
+  shows saved photos, No face photo, uploads, and optional style references.
+  Honor its explicit selection message; do not ask for the same choice again.
+  Without UI, use `list_assets` with `role: face` and resolve their selection.
+  Never silently select a likeness.
 - Default to rendered images with `mode: full` and the Balanced preset,
   `style: clean`. Use `mode: concept` only when the user asks for concepts
   without images. Both modes use generation allowance. Do not use a paid run
@@ -54,7 +57,12 @@ image in the account. Map selected images to `faceAssetIds`, `refAssetIds`, or
 `styleRefAssetIds`; do not invent IDs or map `brand` assets to an unsupported
 generation field. A missing image reference need not block a run without refs.
 
-For a user-supplied image upload, use `create_asset_upload`, send the raw bytes
+The face picker can upload user-selected ChatGPT files through
+`import_asset_file` and save them in VoxTale. Use only files the user supplies;
+never invent file IDs or fetch arbitrary image URLs. If that host extension is
+unavailable, the picker links to VoxTale Library; refresh after upload.
+
+For clients using raw file bytes, use `create_asset_upload`, send the raw bytes
 to `uploadUrl` with HTTP PUT and the returned headers, then call
 `complete_asset_upload`. If the host cannot send bytes, direct the user to
 upload through VoxTale and then select it with `list_assets`. Do not claim an
@@ -71,8 +79,11 @@ If the start response is lost, reuse the same key and identical input. Bound
 transient retries to two attempts and respect a returned retry delay. Never
 generate a new key just to recover a lost response.
 
-Poll `get_generation` for that `runId`, respecting `pollAfterSeconds`. Do not
-call `create_generation` to check progress. If the host cannot keep waiting,
+When the host supports UI, call `show_generation_progress` once for that run.
+Its simple loading card polls read-only status and becomes the results gallery.
+Do not repeatedly open progress cards or duplicate its polling. If UI is not
+available, poll `get_generation`, respecting `pollAfterSeconds`. Never call
+`create_generation` to check progress. If the host cannot keep waiting,
 return the run's status and `webUrl` so the user can resume checking it.
 For `failed`, report the failure without inventing results. Do not start a new
 paid run automatically, including after a provider credit or concurrency error.
@@ -80,7 +91,8 @@ paid run automatically, including after a provider credit or concurrency error.
 ## Present useful results
 
 When done, keep each option's returned rank with its title, hook, and angle.
-For full runs, call `show_thumbnails` with the run ID to display the inline
+If the progress card already displays the results, use that gallery. Otherwise,
+for full runs, call `show_thumbnails` with the run ID to display the inline
 gallery of current thumbnails, matching titles, hooks, and HD/4K downloads.
 Use its optional `ranks` to show selected options. This is a read, not a new
 generation. The gallery's Refresh button renews expiring links without using
@@ -95,6 +107,12 @@ signals or promise clicks, CTR, or views. Image links expire after 15 minutes;
 call `get_generation` again for fresh links instead of starting another run.
 
 ## Revise a chosen option
+
+The thumbnail gallery includes Edit & versions: an instruction field, current
+and earlier full-quality images, and Restore. A user clicking Apply edit or
+Restore requests that action; do not also repeat it from chat. The panel shows
+when an edit uses allowance, polls its edit, and preserves history. For requests
+made in chat, use the tools below. Layered text/layout changes still use chat.
 
 Resolve the run and returned option rank, then call `get_thumbnail` before an
 edit. Ask which option only when the user's choice is unclear.
