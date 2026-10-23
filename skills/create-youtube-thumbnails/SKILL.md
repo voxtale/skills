@@ -108,8 +108,9 @@ call `get_generation` again for fresh links instead of starting another run.
 
 ## Revise a chosen option
 
-The thumbnail gallery includes Edit & versions: an instruction field, current
-and earlier full-quality images, and Restore. A user clicking Apply edit or
+The thumbnail gallery’s Edit panel includes a version dropdown with one
+full-quality preview at a time, an instruction field for the current thumbnail,
+and Restore. Choosing a version only changes the preview. A user clicking Apply edit or
 Restore requests that action; do not also repeat it from chat. The panel shows
 when an edit uses allowance, polls its edit, and preserves history. For requests
 made in chat, use the tools below. Layered text/layout changes still use chat.
